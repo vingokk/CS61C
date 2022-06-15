@@ -1,5 +1,5 @@
 
-globl dot
+.globl dot
 
 .text
 # =======================================================
@@ -18,6 +18,7 @@ globl dot
 # If the stride of either vector is less than 1,
 # this function exits with error code 6.
 # =======================================================
+
 dot:
     slti t0, a2, 1
     bne t0, x0, exit1
@@ -53,7 +54,7 @@ loop_start:
     #res = v1[i*s] * v2[i*s]
     mul t2, t0, t1
     add s1, s1, t2
-
+    
     #i = i+1
     addi s0, s0, 1
     jal x0, loop_start
@@ -63,6 +64,8 @@ loop_end:
 
     # Epilogue
     mv a0, s1
+    lw s0, 4(sp)
+    lw s1, 0(sp)
     addi sp, sp, 8
     ret
 
@@ -75,3 +78,5 @@ exit2:
     addi a1, x0, 6
     addi a0, x0, 17
     ecall
+
+ 
